@@ -31,48 +31,58 @@ export default class GetImageForm extends Component {
 // custom methods that are attached to the form
 _handleRover(event){
   this.setState({
-    rover: event.target.rover
+    rover: event.target.value
   });
 }
 _handleCamera(event){
   this.setState({
-    camera: event.target.camera
+    camera: event.target.value
   });
 }
 _handleSol(event){
   this.setState({
-    sol: event.target.sol
+    sol: event.target.value
   });
 }
 _fetchRoverImage(event){
   event.preventDefault();
-  //const imageUrl = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rove}/photos?sol=${num}&camera=${cam}&api_key=${API_KEY}`;
-  
-
-}
+  const imageUrl = `${BASE_URL}${this.state.rover}/photos?sol=${this.state.sol}&camera=${this.state.camera}&api_key=${API_KEY}`;
+    fetch(imageUrl)
+    .then(response => response.json())
+    .then((json) => {
+      this.setState({
+        images: json.photos
+      });
+    });
+  }
 
 
   render(){
+    console.log(this.state.images)
     return(
       <form className="marsForm">
         <label htmlFor="rover">Rover</label>
         <select onChange={this._handleRover} id="rover" value={this.state.rover}>
+          <option value='select'>Select Rover</option>
           <option value="Curiosity">Curiosity</option>
           <option value="Opportunity">Opportunity</option>
           <option value="Spirit">Spirt</option>
         </select>
         <label htmlFor="camera">Camera Type</label>
         <select onChange={this._handleCamera} id="rover" value={this.state.camera}>
+          <option value='select'>Select Camera</option>
           <option value="fhaz">FHAZ (Front Hazard)</option>
           <option value="rhaz">RHAZ (Rear Hazard)</option>
           <option value="navcam">NAVCAM (Navigation Cam)</option>
         </select>
         <label htmlFor="sol">Martian Sol: 1000-2000</label>
-        <input type="number" onChange={this._handleSol} max="2000" min="1000" value={this.state.sol}/>
-
+        <input type="number" onChange={this._handleSol} max="2000" min="1000" />
+          // the submit button
         <GetImageButton onClick={this._fetchRoverImage}/>
 
       </form>
+
+
     );
   }
 }
