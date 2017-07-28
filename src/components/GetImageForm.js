@@ -58,31 +58,43 @@ _fetchRoverImage(event){
 
 
   render(){
+    let images = this.state.images.map((image, index)=>{
+    return <ImageDisplay key={index} image={image} />
+  })
     console.log(this.state.images)
     return(
-      <form className="marsForm">
-        <label htmlFor="rover">Rover</label>
-        <select onChange={this._handleRover} id="rover" value={this.state.rover}>
-          <option value='select'>Select Rover</option>
-          <option value="Curiosity">Curiosity</option>
-          <option value="Opportunity">Opportunity</option>
-          <option value="Spirit">Spirt</option>
-        </select>
-        <label htmlFor="camera">Camera Type</label>
-        <select onChange={this._handleCamera} id="rover" value={this.state.camera}>
-          <option value='select'>Select Camera</option>
-          <option value="fhaz">FHAZ (Front Hazard)</option>
-          <option value="rhaz">RHAZ (Rear Hazard)</option>
-          <option value="navcam">NAVCAM (Navigation Cam)</option>
-        </select>
-        <label htmlFor="sol">Martian Sol: 1000-2000</label>
-        <input type="number" onChange={this._handleSol} max="2000" min="1000" />
-          // the submit button
-        <GetImageButton onClick={this._fetchRoverImage}/>
+      <div className='container'>
+        <form className='form-horizontal'>
+          <div className="form-group">
+          <label htmlFor="rover">Rover</label>
+          <select onChange={this._handleRover} id="rover" className="form-control" value={this.state.rover}>
+            <option value='select'>Select Rover</option>
+            <option value="Curiosity">Curiosity</option>
+            <option value="Opportunity">Opportunity</option>
+            <option value="Spirit">Spirt</option>
+          </select>
+          </div>
+          <div className="form-group">
+          <label htmlFor="camera">Camera Type</label>
+          <select onChange={this._handleCamera} id="rover" value={this.state.camera}>
+            <option value='select'>Select Camera</option>
+            <option value="fhaz">FHAZ (Front Hazard)</option>
+            <option value="rhaz">RHAZ (Rear Hazard)</option>
+            <option value="navcam">NAVCAM (Navigation Cam)</option>
+          </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="sol">Martian Sol: 1000-2000</label>
+            <input type="number" onChange={this._handleSol} max="2000" min="1000" />
+          </div>
+            <GetImageButton onClick={this._fetchRoverImage}/>
+        </form>
 
-      </form>
+        <div className="center-block">
+          {images}
+        </div>
 
-
+      </div>
     );
   }
 }
